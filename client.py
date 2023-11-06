@@ -19,6 +19,7 @@ jour_interval = 2
 
 client_jour_read_time = 2
 client_temp_read_time =60
+first_time_start_up=True
 
 
 
@@ -39,7 +40,7 @@ while True:
 
 
 
-    if (my_minutes % jour_interval==0 and my_second == 0):
+    if ((my_minutes % jour_interval==0 and my_second == 0) or first_time_start_up==True ):
 
         print(my_minutes)
         print(my_second)
@@ -88,10 +89,11 @@ while True:
             print("An exception occurred:", error)
 
         get_field = requests.get(weather_api).json()
-        if (my_minutes == 0 and my_second == 0):
+
+        if ((my_minutes == 0 and my_second == 0) or first_time_start_up ==True):
             print(my_minutes)
             print(my_second)
-            hum = get_field["temperature"]['data']['value']
+            hum=get_field["humidity"]['data'][0]['value']
             for attrs in get_field["temperature"]['data']:
                 if attrs['place'] == '香港天文台':
                     temperature_to_store = attrs['value']
@@ -110,6 +112,7 @@ while True:
             jsonFile.write(json.dumps(json_array))
             jsonFile.close()
             value_to_store = False
+            first_time_start_up = False
             json_array=[]
 
             time.sleep(1)
