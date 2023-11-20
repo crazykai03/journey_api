@@ -81,42 +81,42 @@ while True:
             print(data)
            # names = [H2_CH_str, K02_CH_str, K04_CH_str, H2_EH_str, K02_EH_str, H2_WH_str, K04_WH_str]
             update_data = [data[H2_CH].get("JOURNEY_DATA")+ "." + data[H2_CH].get("COLOUR_ID"), data[H2_EH].get("JOURNEY_DATA")+ "." + data[H2_EH].get("COLOUR_ID"), data[H2_WH].get("JOURNEY_DATA")+ "." + data[H2_WH].get("COLOUR_ID"),
-                        data[K04_CH].get("JOURNEY_DATA")+ "." + data[K04_CH].get("COLOUR_ID"), data[K04_WH].get("JOURNEY_DATA")+ "." + data[K04_WH].get("COLOUR_ID"), data[K02_CH].get("JOURNEY_DATA")+ "." + data[K02_CH].get("COLOUR_ID"),
-                        data[K02_EH].get("JOURNEY_DATA")+ "." + data[K02_EH].get("COLOUR_ID")]
+                        data[K04_CH].get("JOURNEY_DATA")+ "." + data[K04_CH].get("COLOUR_ID"),0, data[K04_WH].get("JOURNEY_DATA")+ "." + data[K04_WH].get("COLOUR_ID"), data[K02_CH].get("JOURNEY_DATA")+ "." + data[K02_CH].get("COLOUR_ID"),
+                        0,data[K02_EH].get("JOURNEY_DATA")+ "." + data[K02_EH].get("COLOUR_ID")]
 
             value_to_store=True
+
+
+            get_field = requests.get(weather_api).json()
+
+            if ((my_minutes == 0 and my_second == 0) or first_time_start_up ==True):
+                print(my_minutes)
+                print(my_second)
+                hum=get_field["humidity"]['data'][0]['value']
+                for attrs in get_field["temperature"]['data']:
+                    if attrs['place'] == '香港天文台':
+                        temperature_to_store = attrs['value']
+
+                value_to_store=True
+
+            if value_to_store==True:
+                data_to_store["jour"] = update_data
+                data_to_store["temp"] = temperature_to_store
+                data_to_store["humidity"] = hum
+                data_to_store["temp_interval"]=client_temp_read_time
+                data_to_store["jour_interval"] = client_jour_read_time
+
+                json_array.append(data_to_store)
+                jsonFile = open("./data.json", "w")
+                jsonFile.write(json.dumps(json_array))
+                jsonFile.close()
+                value_to_store = False
+                first_time_start_up = False
+                json_array=[]
+
+                time.sleep(1)
         except Exception as error:
             print("An exception occurred:", error)
-
-        get_field = requests.get(weather_api).json()
-
-        if ((my_minutes == 0 and my_second == 0) or first_time_start_up ==True):
-            print(my_minutes)
-            print(my_second)
-            hum=get_field["humidity"]['data'][0]['value']
-            for attrs in get_field["temperature"]['data']:
-                if attrs['place'] == '香港天文台':
-                    temperature_to_store = attrs['value']
-
-            value_to_store=True
-
-        if value_to_store==True:
-            data_to_store["jour"] = update_data
-            data_to_store["temp"] = temperature_to_store
-            data_to_store["humidity"] = hum
-            data_to_store["temp_interval"]=client_temp_read_time
-            data_to_store["jour_interval"] = client_jour_read_time
-
-            json_array.append(data_to_store)
-            jsonFile = open("./data.json", "w")
-            jsonFile.write(json.dumps(json_array))
-            jsonFile.close()
-            value_to_store = False
-            first_time_start_up = False
-            json_array=[]
-
-            time.sleep(1)
-
 
 
 
