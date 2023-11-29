@@ -21,6 +21,18 @@ router.route('/getstoreregister')
 });      
 });	
 
+router.route('/getserverapi')
+
+     	 .get(function (req, res) {
+
+			fs.readFile('../serverapi.json', (err, data) => {
+    if (err) throw err;
+     student= JSON.parse(data);
+
+     res.send(student);
+
+});
+});
 
 
 
