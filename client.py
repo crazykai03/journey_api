@@ -80,8 +80,8 @@ while True:
                 "JOURNEY_DATA") + "." + data[K04_WH].get("COLOUR_ID")
             print(data)
            # names = [H2_CH_str, K02_CH_str, K04_CH_str, H2_EH_str, K02_EH_str, H2_WH_str, K04_WH_str]
-            update_data = [data[H2_CH].get("JOURNEY_DATA")+ "." + data[H2_CH].get("COLOUR_ID"), data[H2_EH].get("JOURNEY_DATA")+ "." + data[H2_EH].get("COLOUR_ID"), data[H2_WH].get("JOURNEY_DATA")+ "." + data[H2_WH].get("COLOUR_ID"),
-                        data[K04_CH].get("JOURNEY_DATA")+ "." + data[K04_CH].get("COLOUR_ID"),0, data[K04_WH].get("JOURNEY_DATA")+ "." + data[K04_WH].get("COLOUR_ID"), data[K02_CH].get("JOURNEY_DATA")+ "." + data[K02_CH].get("COLOUR_ID"),
+            update_data = [data[H2_WH].get("JOURNEY_DATA")+ "." + data[H2_WH].get("COLOUR_ID"), data[H2_CH].get("JOURNEY_DATA")+ "." + data[H2_CH].get("COLOUR_ID"), data[H2_EH].get("JOURNEY_DATA")+ "." + data[H2_EH].get("COLOUR_ID"),
+                        data[K04_WH].get("JOURNEY_DATA")+ "." + data[K04_WH].get("COLOUR_ID"),0, data[K04_CH].get("JOURNEY_DATA")+ "." + data[K04_CH].get("COLOUR_ID"), data[K02_CH].get("JOURNEY_DATA")+ "." + data[K02_CH].get("COLOUR_ID"),
                         0,data[K02_EH].get("JOURNEY_DATA")+ "." + data[K02_EH].get("COLOUR_ID")]
 
             value_to_store=True
