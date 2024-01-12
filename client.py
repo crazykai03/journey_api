@@ -3,10 +3,17 @@ import xmltodict
 import time
 from datetime import datetime
 import json
-
+from firebase_admin import db
+import firebase_admin
 
 url_str ='http://resource.data.one.gov.hk/td/jss/Journeytimev2.xml'
 weather_api ='https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=tc'
+
+cred_obj = firebase_admin.credentials.Certificate("./journeybase-644f6-firebase-adminsdk-x9igp-186e712fa3.json")
+default_app = firebase_admin.initialize_app(cred_obj, {
+	'databaseURL':'https://journeybase-644f6-default-rtdb.asia-southeast1.firebasedatabase.app/'
+	})
+
 pre_data=[0,0,0,0,0,0,0]
 data_to_store={}
 temperature_to_store=0
@@ -107,9 +114,11 @@ while True:
                 data_to_store["jour_interval"] = client_jour_read_time
 
                 json_array.append(data_to_store)
-                jsonFile = open("./data.json", "w")
-                jsonFile.write(json.dumps(json_array))
-                jsonFile.close()
+                #jsonFile = open("./data.json", "w")
+                #jsonFile.write(json.dumps(json_array))
+                #jsonFile.close()
+                ref = db.reference("/journey")
+                ref.set(json_array)
                 value_to_store = False
                 first_time_start_up = False
                 json_array=[]
